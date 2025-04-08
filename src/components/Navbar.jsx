@@ -1,118 +1,15 @@
-/*"use client"
-import React from 'react'
-
-const Navbar = () => {
-
-   const [isClicked, setIsClicked] = React.useState(false);
-
-   const toggleNavbar = () => {
-      setIsClicked(!isClicked);
-   }
-  return (
-    <>
-    <nav className="bg-yellow-600">
-       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-         <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-               <div className="flex-shrink-0">
-                   <a href="/" className="text-white">
-                      Logo
-                   </a>
-               </div>
-            </div>
-            <div className="hidden md:block">
-               <div className="ml-4 flex items-center space-x-4">
-                  <a href="/" className="text-white hover:bg-white hover:text-black rounded-lg p-2">
-                     About
-                  </a>
-                  <a href="/" className="text-white hover:bg-white hover:text-black rounded-lg p-2">
-                     Search Jobs
-                  </a>
-                  <a href="/" className="text-white hover:bg-white hover:text-black rounded-lg p-2">
-                     Clinicians
-                  </a>
-                  <a href="/" className="text-white hover:bg-white hover:text-black rounded-lg p-2">
-                     Blog
-                  </a>
-                  <a href="/" className="text-white hover:bg-white hover:text-black rounded-lg p-2">
-                     Contact
-                  </a>
-               </div>
-            </div>
-            <div className="md:hidden flex items-center">
-               <button
-               className="inline-flex items-center justify-center p-2 rounded-md text-white
-               hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-               onClick={toggleNavbar}
-               >
-               {isClicked ? (
-                  <svg
-                 className="h-6 w-6"
-                 xmlns="http://www.w3.org/2000/svg"
-                 fill="none"
-                 viewBox="0 0 24 24"
-                 stroke="currentColor"
-                 >
-                  <path
-                     strokeLinecap="round"
-                     strokeLinejoin="round"
-                     strokeWidth={2}
-                     d="M6 18L18 6M6 6l12 12"
-                  />
-                  </svg>
-               ) : (
-                  <svg
-                     className="h-6 w-6"
-                     xmlns="http://www.w3.org/2000/svg"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke="currentColor"
-                  >
-                  <path
-                     strokeLinecap="round"
-                     strokeLinejoin="round"
-                     strokeWidth={2}
-                     d="M4 6h16M4 12h16m-7 6h7"
-                  />
-                  </svg>
-               )}
-               </button>
-            </div>
-         </div>    
-         {isClicked && (
-            <div className="md:hidden">
-               <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                  <a href="/" className="text-white block hover:bg-white hover:text-black rounded-lg p-2">
-                     About
-                  </a>
-                  <a href="/" className="text-white block hover:bg-white hover:text-black rounded-lg p-2">
-                     Search Jobs
-                  </a>
-                  <a href="/" className="text-white block hover:bg-white hover:text-black rounded-lg p-2">
-                     Clinicians
-                  </a>
-                  <a href="/" className="text-white block hover:bg-white hover:text-black rounded-lg p-2">
-                     Blog
-                  </a>
-                  <a href="/" className="text-white block hover:bg-white hover:text-black rounded-lg p-2">
-                     Contact
-                  </a>
-               </div>
-            </div>
-         )}   
-       </div>
-    </nav>
-    </>
-  )
-}
-
-export default Navbar*/
 "use client"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [aboutHover, setAboutHover] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -125,36 +22,66 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-8">
-            <Link href="/about" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
-              About Us
-            </Link>
-            <Link href="/services" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
-              Search Jobs
-            </Link>
-            <Link href="/doctors" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
-              Clinicians
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
-              Blog
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
-              Contact
-            </Link>
-            <Link 
-              href="/appointment" 
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium ml-4 transition-colors"
-            >
-              Book Appointment
-            </Link>
-          </div>
+          {/* Desktop Menu - Only render on client */}
+          {isMounted && (
+            <div className="hidden md:flex items-center space-x-8">
+              <div 
+                className="relative h-full flex items-center"
+                onMouseEnter={() => setAboutHover(true)}
+                onMouseLeave={() => setAboutHover(false)}
+              >
+                <Link 
+                  href="/about" 
+                  className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium flex items-center h-full"
+                >
+                  About Us
+                  <svg 
+                    className="ml-1 h-4 w-4" 
+                    viewBox="0 0 20 20" 
+                    fill="currentColor"
+                  >
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </Link>
+                {aboutHover && (
+                  <div className="absolute left-0 top-full w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-100">
+                    <Link 
+                      href="/about/faq" 
+                      className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 text-sm"
+                    >
+                      FAQs
+                    </Link>
+                  </div>
+                )}
+              </div>
+              
+              <Link href="/searchjobs" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
+                Search Jobs
+              </Link>
+              <Link href="/clinicians" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
+                Clinicians
+              </Link>
+              <Link href="/blog" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
+                Blog
+              </Link>
+              <Link href="/contact" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
+                Contact
+              </Link>
+              <Link 
+                href="/contact" 
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium ml-4 transition-colors"
+              >
+                Book Appointment
+              </Link>
+            </div>
+          )}
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-700 hover:text-blue-600 focus:outline-none"
+              aria-label="Toggle menu"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isOpen ? (
@@ -175,20 +102,23 @@ export default function Navbar() {
             <Link href="/about" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md font-medium">
               About Us
             </Link>
-            <Link href="/services" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md font-medium">
+            <Link href="/about/faq" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md font-medium ml-4 text-sm">
+              - FAQs
+            </Link>
+            <Link href="/searchjobs" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md font-medium">
               Search Jobs
             </Link>
-            <Link href="/doctors" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md font-medium">
+            <Link href="/clinicians" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md font-medium">
               Clinicians
             </Link>
-            <Link href="/contact" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md font-medium">
+            <Link href="/blog" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md font-medium">
               Blog
             </Link>
             <Link href="/contact" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md font-medium">
               Contact
             </Link>
             <Link 
-              href="/appointment" 
+              href="/contact" 
               className="block bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium mt-2 text-center transition-colors"
             >
               Book Appointment

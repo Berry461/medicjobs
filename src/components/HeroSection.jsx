@@ -1,70 +1,80 @@
-"use client";
-import { motion } from "framer-motion";
-import Image from "next/image";
+"use client"
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 
-export default function HeroSection() {
+export default function HeroSection({
+  title = "Exceptional Healthcare",
+  subtitle = "Compassionate medical professionals",
+  showButtons = true,
+  imageUrl = "/medical-team.jpg",
+  imageAlt = "Healthcare professionals",
+  textColor = "text-black",
+  bgColor = "bg-white"
+}) {
   return (
-    <section className="bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          {/* Text Content */}
-          <div className="md:w-1/2">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
-            >
-              Exceptional <span className="text-blue-600">Healthcare</span> For Your Family
-            </motion.h1>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg text-gray-600 mb-8 max-w-lg"
-            >
-              Trusted by thousands of patients for comprehensive medical care with compassion and cutting-edge technology.
-            </motion.p>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              <a
-                href="/appointment"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium text-center transition-colors"
-              >
-                Book an Appointment
-              </a>
-              <a
-                href="/services"
-                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-medium text-center transition-colors"
-              >
-                Our Services
-              </a>
-            </motion.div>
-          </div>
+    <section className={`relative pt-16 min-h-[70vh] flex items-center overflow-hidden ${bgColor} ${textColor}`}>
+      {/* Background elements - reduced size */}
+      <div className="absolute inset-0 opacity-10 md:opacity-15">
+        <div className="absolute top-12 left-8 w-32 h-32 md:w-48 md:h-48 rounded-full bg-blue-500 mix-blend-overlay filter blur-lg animate-float"></div>
+        <div className="absolute bottom-8 right-8 w-36 h-36 md:w-56 md:h-56 rounded-full bg-purple-500 mix-blend-overlay filter blur-lg animate-float-delay"></div>
+      </div>
 
-          {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="md:w-1/2 relative w-full h-64 sm:h-80 md:h-96"
+      {/* Tighter padding container */}
+      <div className="container mx-auto px-4 sm:px-6 py-8 z-10">
+        <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-8">
+          {/* Text content - reduced margins */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="lg:w-1/2"
           >
-            <Image
-              src="/doctor-patient.jpg" // Replace with your medical image
-              alt="Doctor consulting with patient"
-              fill
-              className="object-contain rounded-lg shadow-xl"
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-            {/* Decorative element */}
-            <div className="absolute -z-10 top-4 left-4 w-full h-full rounded-lg bg-blue-100"></div>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              {title}
+            </h1>
+            <p className="text-base md:text-lg mb-6 max-w-md opacity-90">
+              {subtitle}
+            </p>
+            
+            {showButtons && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="flex flex-col sm:flex-row gap-3"
+              >
+                <a
+                  href="/appointment"
+                  className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-medium text-center transition-colors text-sm md:text-base"
+                >
+                  Book Appointment
+                </a>
+                <a
+                  href="/services"
+                  className="border-2 border-current px-6 py-2 rounded-lg font-medium text-center hover:bg-gray-100 transition-colors text-sm md:text-base"
+                >
+                  Our Services
+                </a>
+              </motion.div>
+            )}
+          </motion.div>
+
+          {/* Image - slightly smaller */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="lg:w-1/2 w-full"
+          >
+            <div className="relative h-60 sm:h-72 md:h-80 rounded-lg overflow-hidden shadow-xl">
+              <Image
+                src={imageUrl}
+                alt={imageAlt}
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
           </motion.div>
         </div>
       </div>

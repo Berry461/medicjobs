@@ -18,3 +18,9 @@
   code, pre {
     font-family: var(--font-roboto-mono);
   }
+
+  .about-dropdown::after {
+    content: '▼';
+    font-size: 0.6em;
+    margin-left: 4px;
+  }
