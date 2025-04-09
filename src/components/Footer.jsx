@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
 
@@ -9,11 +10,21 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white pt-12 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8"> {/* Changed from 4 to 3 columns */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           
-          {/* Clinic Info */}
+          {/* Clinic Info with Logo */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-blue-300">MediCare+ Clinic</h3>
+            <div className="mb-4">
+              <Link href="/">
+                <Image 
+                  src="/medicalogo.jpeg" // Use a white version of your logo for dark background
+                  alt="MediCare+ Logo"
+                  width={180}
+                  height={50}
+                  className="h-10 w-auto" // Adjusted size for footer
+                />
+              </Link>
+            </div>
             <p className="mb-4 text-gray-300">
               Providing compassionate healthcare with cutting-edge technology since 2010.
             </p>

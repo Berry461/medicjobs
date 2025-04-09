@@ -34,11 +34,37 @@ export default function ContactPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  /*const handleSubmit = (e) => {
     e.preventDefault();
     // Here you would typically send the data to your backend
     console.log('Form submitted:', formData);
     setSubmitted(true);
+  };*/
+  // Update the handleSubmit function in your ContactPage
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+      
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        console.error('Submission error:', result.error);
+        alert('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      alert('Network error. Please try again.');
+    }
   };
 
   return (
@@ -183,28 +209,6 @@ export default function ContactPage() {
             </div>
           </div>
         )}
-
-        {/* Contact Info */}
-        {/*<div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-gray-50 p-6 rounded-lg">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Our Location</h3>
-            <p className="text-gray-600">123 Medical Center Drive</p>
-            <p className="text-gray-600">Boston, MA 02115</p>
-          </div>
-          
-          <div className="bg-gray-50 p-6 rounded-lg">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Contact Information</h3>
-            <p className="text-gray-600 mb-2">
-              <span className="font-medium">Phone:</span> (555) 123-4567
-            </p>
-            <p className="text-gray-600 mb-2">
-              <span className="font-medium">Email:</span> contact@medicareplus.com
-            </p>
-            <p className="text-gray-600">
-              <span className="font-medium">Hours:</span> Mon-Fri, 8:00 AM - 5:00 PM
-            </p>
-          </div>
-        </div>*/}
       </section>
     </div>
   );

@@ -1,66 +1,73 @@
+'use client';
+import { notFound } from 'next/navigation';
+import { use } from 'react';
+import { allBlogPosts } from '@/constants/blog';
 import HeroSection from '@/components/HeroSection';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import Link from 'next/link';
 
-const blogPosts = [
-  // Same as above, but add content field:
-  {
-    id: 1,
-    title: "5 Essential Health Screenings for Adults Over 40",
-    // ... other fields
-    content: `<p>Regular health screenings are crucial for detecting potential...</p>`
+export default function BlogDetailPage({ params }) {
+  const { id } = use(params);
+  const post = allBlogPosts.find(post => post.id === Number(id));
+
+  if (!post) {
+    notFound();
   }
-  // ... other posts
-];
-
-export default function BlogPostPage({ params }) {
-  const post = blogPosts.find(p => p.id.toString() === params.id);
-
-  if (!post) return notFound();
 
   return (
     <div className="bg-white">
       <HeroSection 
-        title={post.title}
-        subtitle={`${post.category} • ${post.date}`}
+        title="Medical Insights Blog"
+        subtitle="Expert advice and latest research"
         showButtons={false}
         bgColor="bg-gray-50"
         textColor="text-gray-900"
+        imageUrl="/blog-page.jpg"
       />
 
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-        <div className="prose prose-lg max-w-none">
-          <div className="relative h-64 md:h-96 mb-8 rounded-lg overflow-hidden">
-            <Image
-              src={post.image}
-              alt={post.title}
-              fill
-              className="object-cover"
-            />
+      <article className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+        {/* Article Header */}
+        <div className="border-b border-gray-200 pb-8 mb-8">
+          <div className="flex flex-wrap gap-3 mb-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+              {post.category}
+            </span>
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+              {post.readTime}
+            </span>
           </div>
           
-          <div dangerouslySetInnerHTML={{ __html: post.content }} />
-          
-          <div className="mt-12 pt-6 border-t border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">About the Author</h3>
-            <div className="flex items-center">
-              <div className="relative h-12 w-12 rounded-full overflow-hidden mr-4">
-                <Image
-                  src="/doctor-avatar.jpg"
-                  alt="Dr. Sarah Johnson"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div>
-                <p className="font-medium">Dr. Sarah Johnson</p>
-                <p className="text-sm text-gray-600">Board Certified Internal Medicine Specialist</p>
-              </div>
-            </div>
-          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{post.title}</h1>
+          <p className="text-gray-600">By {post.author} · {post.date}</p>
         </div>
-      </section>
+
+        {/* Featured Image */}
+        <div className="relative rounded-xl overflow-hidden mb-8 aspect-video">
+          <Image
+            src={post.image}
+            alt={post.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+
+        {/* Article Content */}
+        <div 
+          className="prose prose-lg max-w-none text-gray-700 mb-12"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
+
+        {/* Back to Blog Link */}
+        <div className="flex justify-center pt-6 border-t border-gray-200">
+          <Link
+            href="/blog"
+            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+          >
+            ← Back to Blog
+          </Link>
+        </div>
+      </article>
     </div>
   );
 }
-
