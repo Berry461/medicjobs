@@ -42,7 +42,7 @@ export async function POST(request) {
     // Send email with attachment
     const { data, error } = await resend.emails.send({
       from: `${process.env.NEXT_PUBLIC_SITE_NAME} Careers <onboarding@resend.dev>`,
-      to: ['Olapeju.olasokan@gmail.com'],
+      to: ['ogunmorotiopeyemi1@gmail.com'],
       reply_to: email,
       subject: `Job Application: ${jobTitle}`,
       html: `
